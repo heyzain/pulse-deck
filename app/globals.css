@@ -26,9 +26,9 @@
 @media(max-height:480px){.overlay-backdrop{padding-top:12px}.overlay{max-height:calc(100dvh - 36px)}}
 @media(max-height:480px) and (max-width:759px){.overlay{max-height:calc(100dvh - 112px)}}
 
-/* Paused records return to the reference orientation, including after playback. */
-.record-rotor{animation:none;transform:rotate(0deg)}
-.is-playing .record-rotor{animation:spin 14s linear infinite}
+/* Keep one animation timeline so pause/resume preserves the current angle. */
+.record-rotor{animation:spin 14s linear infinite;animation-play-state:paused}
+.is-playing .record-rotor{animation-play-state:running}
 .record-accent{transform:rotate(-178deg)}
 .record-accent circle{stroke-dasharray:24 76}
 
