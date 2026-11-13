@@ -22,11 +22,11 @@ const paths: Record<IconName, React.ReactNode> = {
  sliders:<>{[6,12,18].map((y,i)=><g key={y}><path d={`M3 ${y}h18`}/><circle cx={i===1?16:8} cy={y} r="2.4" fill="var(--scene)"/></g>)}</>,
  more:<>{[5,12,19].map(y=><circle key={y} cx="12" cy={y} r="1.5" fill="currentColor"/>)}</>,
  arrow:<path d="M3 12h18m-7-7 7 7-7 7"/>, back:<path d="M21 12H3m7-7-7 7 7 7"/>, close:<path d="m6 6 12 12M6 18 18 6"/>,
- record:<><circle cx="12" cy="12" r="10" fill="var(--green)"/><circle cx="12" cy="12" r="4" fill="var(--surface)"/><circle cx="12" cy="12" r=".8" fill="currentColor"/></>,
- tape:<><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M3 15h18M9 9h6"/><circle cx="7" cy="10" r="2"/><circle cx="17" cy="10" r="2"/></>,
- guitar:<><path d="m13 12 7-9 2 2-8 9c4 5-2 10-6 7-7-4-2-11 3-8l7-10M8 16l3 3M20 2l2 2"/></>,
- headphones:<><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="2" y="12" width="5" height="9" rx="2"/><rect x="17" y="12" width="5" height="9" rx="2"/></>,
- sparkles:<><path d="m9 2 2 6 6 2-6 2-2 6-2-6-6-2 6-2ZM19 13l1 3 3 1-3 1-1 4-1-4-3-1 3-1Z"/></>,
+ record:<><circle cx="12" cy="12" r="10" fill="var(--icon-accent-fill, none)"/><circle cx="12" cy="12" r="4" fill="var(--surface)"/><circle cx="12" cy="12" r=".8" fill="currentColor"/></>,
+ tape:<><rect x="2" y="5" width="20" height="14" rx="2" fill="var(--icon-accent-fill, none)"/><path d="M3 15h18M9 9h6"/><circle cx="7" cy="10" r="2" fill="var(--surface)"/><circle cx="17" cy="10" r="2" fill="var(--surface)"/></>,
+ guitar:<><path d="m13 12 7-9 2 2-8 9c4 5-2 10-6 7-7-4-2-11 3-8l7-10" fill="var(--icon-accent-fill, none)"/><path d="M8 16l3 3M20 2l2 2"/></>,
+ headphones:<><path d="M4 15v-4a8 8 0 0 1 16 0v4"/><rect x="2" y="12" width="5" height="9" rx="2" fill="var(--icon-accent-fill, none)"/><rect x="17" y="12" width="5" height="9" rx="2" fill="var(--icon-accent-fill, none)"/></>,
+ sparkles:<><path d="m9 2 2 6 6 2-6 2-2 6-2-6-6-2 6-2ZM19 13l1 3 3 1-3 1-1 4-1-4-3-1 3-1Z" fill="var(--icon-accent-fill, none)"/></>,
  library:<><path d="m3 7 9-5 9 5-9 5ZM3 12l9 5 9-5M3 17l9 5 9-5"/></>,
  user:<><circle cx="12" cy="6" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/></>, help:<><circle cx="12" cy="12" r="10"/><path d="M9 8a3 3 0 1 1 5 2c-2 1-2 2-2 3M12 17h.01"/></>, logout:<><path d="M10 3H3v18h7M10 12h12m-5-5 5 5-5 5"/></>, check:<path d="m4 12 5 5L20 6"/>
 };
