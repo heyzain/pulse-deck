@@ -4,6 +4,7 @@ import {musicApi} from './api-client';
 import type {Track,PlaylistDetail,LikeOperation} from './contracts';
 import {upcomingTracks} from './queue';
 import {useAudioPlayback} from './use-audio-playback';
+import {saveFavorite} from './favorites';
 type Remote<T>={key:string;data?:T;error?:string};
 export function useResource<T>(key:string,loader:(signal:AbortSignal)=>Promise<T>){
  const [revision,setRevision]=useState(0);const requestKey=`${key}:${revision}`;const [state,setState]=useState<Remote<T>>({key:''});
@@ -27,6 +28,6 @@ export function useMusic(){
  const queue=upcomingTracks(catalog?.tracks??[],track?.id,shuffle);
  const skip=useCallback((direction:number,autoplay=playing||playback.pending)=>{if(!catalog?.tracks.length)return;const current=catalog.tracks.findIndex(t=>t.id===track?.id);const next=direction>0?upcomingTracks(catalog.tracks,track?.id,shuffle)[0]??track:catalog.tracks[(current-1+catalog.tracks.length)%catalog.tracks.length];if(next)selectTrack(next,autoplay);},[catalog,track,selectTrack,playing,playback.pending,shuffle]);
  useEffect(()=>{endedAction.current=()=>{if(repeat){setPosition(0);setPlaying(true);}else skip(1,true);};},[repeat,skip,setPosition,setPlaying]);
- const changeLike=useCallback(async(operation:LikeOperation)=>{const id=operation.trackId;if(operations.current.has(id))return;const controller=new AbortController();operations.current.set(id,controller);setPending(p=>new Set(p).add(id));setLikeError(null);try{const result=await musicApi.like(operation,controller.signal);if(active.current&&!controller.signal.aborted)setLiked(p=>{const next=new Set(p);if(result.liked)next.add(result.trackId);else next.delete(result.trackId);return next;});}catch(error){if(active.current&&!controller.signal.aborted)setLikeError({operation,message:error instanceof Error?error.message:'Could not update favorite.'});}finally{operations.current.delete(id);if(active.current)setPending(p=>{const next=new Set(p);next.delete(id);return next;});}},[]);
+ const changeLike=useCallback(async(operation:LikeOperation)=>{const id=operation.trackId;if(operations.current.has(id))return;const controller=new AbortController();operations.current.set(id,controller);setPending(p=>new Set(p).add(id));setLikeError(null);const apply=(trackId:string,value:boolean)=>setLiked(p=>{const next=new Set(p);if(value)next.add(trackId);else next.delete(trackId);return next;});try{await saveFavorite(operation,liked.has(id),apply,musicApi.like,controller.signal);}catch(error){if(active.current&&!controller.signal.aborted)setLikeError({operation,message:error instanceof Error?error.message:'Could not update favorite.'});}finally{operations.current.delete(id);if(active.current)setPending(p=>{const next=new Set(p);next.delete(id);return next;});}},[liked]);
  return {...remote,catalog,track,queue,audioPending:playback.pending,audioError:playback.error,retryAudio:playback.retry,duration:playback.duration||track?.duration||0,playing,setPlaying,position,setPosition,volume,setVolume,shuffle,setShuffle,repeat,setRepeat,liked,pending,likeError,changeLike,selectTrack,skip};
 }

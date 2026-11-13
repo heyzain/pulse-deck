@@ -8,12 +8,38 @@ const ts=require('typescript');
 const root=path.resolve(import.meta.dirname,'..');
 const compiled=path.join(root,'.qa','test-modules');
 await mkdir(compiled,{recursive:true});
-for(const name of ['contracts','api-client','queue','audio-engine']){const source=await readFile(path.join(root,'features/music',`${name}.ts`),'utf8');await writeFile(path.join(compiled,`${name}.js`),ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText);}
+for(const name of ['contracts','api-client','queue','audio-engine','favorites']){const source=await readFile(path.join(root,'features/music',`${name}.ts`),'utf8');await writeFile(path.join(compiled,`${name}.js`),ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText);}
 const contracts=require(path.join(compiled,'contracts.js'));
 const {request}=require(path.join(compiled,'api-client.js'));
 const {upcomingTracks}=require(path.join(compiled,'queue.js'));
 const {AudioEngine}=require(path.join(compiled,'audio-engine.js'));
+const {saveFavorite}=require(path.join(compiled,'favorites.js'));
 const base=process.env.TEST_BASE_URL??'http://127.0.0.1:3000';
+
+test('optimistic favorite updates immediately, rolls back failed unlike, and retries',async()=>{
+ const liked=new Set();const apply=(id,value)=>{if(value)liked.add(id);else liked.delete(id);};
+ const signal=new AbortController().signal;let finish;
+ const first=saveFavorite({trackId:'a',liked:true},false,apply,()=>new Promise(resolve=>{finish=resolve;}),signal);
+ assert.equal(liked.has('a'),true);finish({trackId:'a',liked:true,persisted:false});await first;
+ let fail;const unlike=saveFavorite({trackId:'a',liked:false},true,apply,()=>new Promise((_resolve,reject)=>{fail=reject;}),signal);
+ assert.equal(liked.has('a'),false);const failed=assert.rejects(unlike,/offline/);fail(new Error('offline'));await failed;assert.equal(liked.has('a'),true);
+ await saveFavorite({trackId:'a',liked:false},true,apply,async op=>({...op,persisted:false}),signal);assert.equal(liked.has('a'),false);
+});
+
+test('optimistic rollback stays attached to its track during concurrent favorites',async()=>{
+ const liked=new Set();const apply=(id,value)=>{if(value)liked.add(id);else liked.delete(id);};
+ const signal=new AbortController().signal;let failA,finishB;
+ const a=saveFavorite({trackId:'a',liked:true},false,apply,()=>new Promise((_resolve,reject)=>{failA=reject;}),signal);
+ const b=saveFavorite({trackId:'b',liked:true},false,apply,()=>new Promise(resolve=>{finishB=resolve;}),signal);
+ assert.deepEqual([...liked],['a','b']);const failed=assert.rejects(a,/offline/);failA(new Error('offline'));await failed;assert.deepEqual([...liked],['b']);
+ finishB({trackId:'b',liked:true,persisted:false});await b;assert.deepEqual([...liked],['b']);
+});
+
+test('optimistic favorite rejects a mismatched acknowledgement and restores state',async()=>{
+ const liked=new Set();const apply=(id,value)=>{if(value)liked.add(id);else liked.delete(id);};
+ await assert.rejects(saveFavorite({trackId:'a',liked:true},false,apply,async()=>({trackId:'wrong',liked:true,persisted:false}),new AbortController().signal),/did not match/);
+ assert.equal(liked.size,0);
+});
 
 class FakeAudio extends EventTarget {
  src='';currentTime=0;duration=205;volume=1;error=null;preload='';readyState=1;
