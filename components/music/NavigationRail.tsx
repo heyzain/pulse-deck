@@ -1,0 +1,5 @@
+import {EqualizerMark} from '@/components/branding/AppLogo';
+import {IconButton} from '@/components/ui/Controls';
+import type {IconName} from '@/components/ui/Icon';
+export const navigationItems:{icon:IconName;label:string;view:string}[]=[{icon:'home',label:'Home',view:'home'},{icon:'heart',label:'Favorites',view:'favorites'},{icon:'music',label:'Songs',view:'songs'},{icon:'radio',label:'Discover radio',view:'discover'},{icon:'stats',label:'Listening statistics',view:'stats'},{icon:'folder',label:'Your library',view:'library'}];
+export function NavigationRail({active='home',onNavigate}:{active?:string;onNavigate:(view:string)=>void}){return <aside className="navigation-rail"><EqualizerMark className="rail-mark"/><nav aria-label="Main navigation">{navigationItems.map(item=><IconButton key={item.view} icon={item.icon} label={item.label} active={active===item.view} aria-current={active===item.view?'page':undefined} onClick={()=>onNavigate(item.view)}/>)}</nav><div className="rail-settings"><IconButton icon="settings" label="Settings" active={active==='settings'} onClick={()=>onNavigate('settings')}/></div></aside>;}

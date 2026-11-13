@@ -1,0 +1,17 @@
+:root {
+  --scene: #fbf7f5; --surface: #fffdfb; --surface-alt: #f6f2ef;
+  --ink: #0f1111; --muted: #737575; --green: #5c8838; --green-dark: #466c25;
+  --green-light: #d4e6b6; --green-tint: #e9f4da; --border: #e9e3de;
+  --shadow-card: 0 4px 14px rgb(24 24 24 / .04);
+  --shadow-popover: 0 16px 56px rgb(35 30 24 / .15);
+  --radius-sm: 12px; --radius-md: 20px; --radius-lg: 30px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px;
+  --duration: 180ms; --ease: cubic-bezier(.2,.8,.2,1);
+  --player-art-size: clamp(340px, 26vw, 380px);
+  --player-column-gap: clamp(24px, 2.5vw, 40px);
+  --dashboard-section-gap: var(--space-4);
+  --now-playing-max: 520px;
+  --timeline-max: 700px;
+  --queue-column-size: clamp(260px, 18vw, 300px);
+}

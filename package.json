@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --test --test-isolation=none tests/music-api.test.mjs tests/music-scenarios.test.mjs"
   },
   "dependencies": {
     "next": "16.4.6",

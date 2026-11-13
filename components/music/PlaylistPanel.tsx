@@ -1,0 +1,6 @@
+'use client';
+import {usePlaylist} from '@/features/music/use-music';
+import type {Track} from '@/features/music/contracts';
+import {Button} from '@/components/ui/Controls';
+import {Cover,TrackRow,ListSkeleton,ResourceState} from './Cards';
+export function PlaylistPanel({id,onPlay,onLike,liked,pending}:{id:string;onPlay:(t:Track)=>void;onLike:(t:Track)=>void;liked:Set<string>;pending:Set<string>}){const state=usePlaylist(id);if(state.loading)return <ListSkeleton/>;if(state.error)return <ResourceState kind="error" title="Couldn't open this playlist" message={state.error} onRetry={state.retry}/>;const data=state.data!;return <><div className="result-artist"><Cover src={data.playlist.cover}/><div><h3>{data.playlist.title}</h3><p className="muted">{data.playlist.count} songs</p></div></div><p className="status-note" style={{marginBottom:16}}>Preview collection · {data.tracks.length} sample tracks available</p>{data.tracks.length?<><Button onClick={()=>onPlay(data.tracks[0])}>Play playlist</Button><div style={{marginTop:18}}>{data.tracks.map(t=><TrackRow key={t.id} track={t} liked={liked.has(t.id)} pending={pending.has(t.id)} onPlay={()=>onPlay(t)} onLike={()=>onLike(t)}/>)}</div></>:<ResourceState title="Nothing here yet" message="This playlist has no tracks."/>}</>;}

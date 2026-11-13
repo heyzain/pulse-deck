@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PulseDeck
 
-## Getting Started
+A warm, record-player-inspired dashboard built with Next.js 16.4.6, React 19.3 and TypeScript. Product: `/`. Single interactive component gallery: `/design-system`.
 
-First, run the development server:
+Playback is a **silent simulation**. Search, playlist previews, favorites, notifications, seek, shuffle, repeat and volume are interactive. There is no streaming service, account system or database. Changes reset on reload.
 
-```bash
+## Run and verify
+
+```powershell
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Production:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```powershell
+npm run lint
+npm run build
+npm run start -- --port 3100
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Keep the server running in another terminal:
 
-## Learn More
+```powershell
+$env:TEST_BASE_URL='http://127.0.0.1:3100'
+npm test
+```
 
-To learn more about Next.js, take a look at the following resources:
+Node 24 supports the test runner's `--test-isolation=none` option used here. Tests compile shared contracts/client code into ignored `.qa/test-modules`. They do not modify fixtures.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Demo scenarios
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Default server latency randomly chooses **1, 2 or 3 seconds**. Set variables before starting a server:
 
-## Deploy on Vercel
+```powershell
+$env:MUSIC_LATENCY_MS='0' # disable delay; 1000/2000/3000 fix it
+$env:MUSIC_SCENARIO='error' # error or empty; unset for normal data
+npm run start -- --port 3101
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+For scenario tests, start error and empty servers separately on 3101 and 3102. Set `TEST_ERROR_BASE_URL` and `TEST_EMPTY_BASE_URL` to their URLs in the test terminal, then run `npm test`. These two tests explicitly skip when their URLs are absent.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`PULSEDECK_BUILD_DIR` selects a separate build directory inside this repository, such as `.qa/next-build`. Use the same value for build/start. Next.js rejects external build directories.
+
+## Source map
+
+| Location | Responsibility |
+| --- | --- |
+| `components/ui` | Controls, icons, modal focus and dismissal |
+| `components/music` | Dashboard, record player, cards and feature presentation |
+| `components/design-system` | Gallery and isolated documentation examples |
+| `design-system/tokens.css` | Semantic design tokens |
+| `features/music/contracts.ts` | Shared types and runtime validation |
+| `features/music/api-client.ts` | HTTP envelopes, timeout and cancellation |
+| `features/music/use-music.ts` | Request lifecycle, detail cache and session state |
+| `features/music/server` | Predictable server-only seed and data source |
+| `app/api/music/route.ts` | Validated HTTP endpoints |
+
+Read the [design specification](docs/design-spec.md), [architecture](docs/architecture.md) and [QA evidence](docs/visual-qa.md) for current acceptance status.
+
+## Fidelity and verification limits
+
+Geometry is estimated from the supplied 1536 × 1024 dashboard/UI-board rasters. Local Geist Sans approximates the board's Plus Jakarta Sans. The CSS/SVG turntable and illustrated SVG covers approximate the reference sculpture and photographs.
+
+Build, lint and HTTP/client checks passed. Browser rendering, visual comparison, keyboard interaction and responsive acceptance remain unverified because the available Windows browser process fails to launch. This is not a claim that all eight workflow checkpoints are complete.
