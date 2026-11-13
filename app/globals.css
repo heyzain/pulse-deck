@@ -173,5 +173,7 @@
 .music-credits li span{color:var(--muted)}
 .inline-track-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-3)}
 .inline-track-grid .track-row{min-width:0;margin:0}
+/* Keep the document scrollbar geometry stable; dialogs never hide overflow. */
+html{scrollbar-gutter:stable}
 @media(max-width:1100px){.inline-track-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:759px){.inline-track-grid{grid-template-columns:minmax(0,1fr)}#library-content .section-heading{flex-wrap:wrap;gap:var(--space-2)}#library-content .text-action{font-size:14px}}
