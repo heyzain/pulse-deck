@@ -5,13 +5,13 @@ const paths: Record<IconName, React.ReactNode> = {
  home:<><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/></>,
  heart:<path d="M20.7 4.8a5.5 5.5 0 0 0-7.8 0L12 5.9l-.9-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.7-8.4a5.5 5.5 0 0 0 0-7.8Z"/>,
  music:<><path d="M9 18V5l11-2v13M9 8l11-2"/><ellipse cx="6" cy="18" rx="3" ry="3"/><ellipse cx="17" cy="16" rx="3" ry="3"/></>,
- radio:<><circle cx="12" cy="12" r="2"/><path d="M7 7a7 7 0 0 0 0 10M17 7a7 7 0 0 1 0 10M3.5 3.5a12 12 0 0 0 0 17M20.5 3.5a12 12 0 0 1 0 17"/></>,
+ radio:<><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M8.5 8.5a5 5 0 0 0 0 7M15.5 8.5a5 5 0 0 1 0 7M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14" fill="none"/></>,
  stats:<><path d="M4 20v-7h3v7ZM11 20V7h3v13ZM18 20V3h3v17Z"/></>,
  folder:<path d="M3 6a2 2 0 0 1 2-2h5l2 3h8a1 1 0 0 1 1 1v12H3Z"/>,
  settings:<><path d="m9 3 1-2h4l1 3 3 1 3-1 2 4-2 2v4l2 2-2 4-3-1-3 1-1 3h-4l-1-3-3-1-3 1-2-4 2-2v-4L1 8l2-4 3 1Z" transform="translate(1 1) scale(.9)"/><circle cx="12" cy="12" r="3"/></>,
  search:<><circle cx="10" cy="10" r="7"/><path d="m15 15 6 6"/></>,
  bell:<><path d="M5 9a7 7 0 0 1 14 0c0 7 3 8 3 9H2c0-1 3-2 3-9ZM9 21h6"/></>,
- apps:<>{[5,15].flatMap(x=>[5,15].map(y=><rect key={`${x}-${y}`} x={x-2} y={y-2} width="6" height="6" rx="2.4" fill="currentColor" stroke="none"/>))}</>,
+ apps:<>{[4,14].flatMap(x=>[4,14].map(y=><rect key={`${x}-${y}`} x={x} y={y} width="6" height="6" rx="2.4" fill="currentColor" stroke="none"/>))}</>,
  play:<path d="m7 3 14 9-14 9Z" fill="currentColor" strokeLinejoin="round"/>,
  pause:<><path d="M7 4v16M17 4v16" strokeWidth="4"/></>,
  next:<><path d="m5 5 11 7L5 19ZM19 4v16"/></>,
@@ -31,4 +31,4 @@ const paths: Record<IconName, React.ReactNode> = {
  library:<><path d="m3 7 9-5 9 5-9 5ZM3 12l9 5 9-5M3 17l9 5 9-5"/></>,
  user:<><circle cx="12" cy="6" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/></>, help:<><circle cx="12" cy="12" r="10"/><path d="M9 8a3 3 0 1 1 5 2c-2 1-2 2-2 3M12 17h.01"/></>, logout:<><path d="M10 3H3v18h7M10 12h12m-5-5 5 5-5 5"/></>, check:<path d="m4 12 5 5L20 6"/>
 };
-export function Icon({name,size=24,style,className=''}:{name:IconName;size?:number;style?:CSSProperties;className?:string}) { return <svg aria-hidden="true" className={`icon ${className}`} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={style}>{paths[name]}</svg>; }
+export function Icon({name,size=24,style,className=''}:{name:IconName;size?:number;style?:CSSProperties;className?:string}) { return <svg aria-hidden="true" className={`icon icon-${name} ${className}`} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={style}>{paths[name]}</svg>; }

@@ -14,4 +14,6 @@
   --now-playing-max: 520px;
   --timeline-max: 700px;
   --queue-column-size: clamp(260px, 18vw, 300px);
+  --wide-workspace-max: 1920px;
+  --wide-workspace-inset: clamp(32px, 4vh, 80px);
 }
