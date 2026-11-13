@@ -1,7 +1,7 @@
 'use client';
 import {useEffect,useRef,type ReactNode} from 'react';
 import {IconButton} from './Controls';
-export function Overlay({title,children,onClose,wide=false}:{title:string;children:ReactNode;onClose:()=>void;wide?:boolean}) {
+export function Overlay({title,children,onClose,wide=false,presentation='popover'}:{title:string;children:ReactNode;onClose:()=>void;wide?:boolean;presentation?:'popover'|'player'}) {
  const ref=useRef<HTMLElement>(null);
  const closeRef=useRef(onClose);
  useEffect(()=>{closeRef.current=onClose;},[onClose]);
@@ -29,5 +29,5 @@ export function Overlay({title,children,onClose,wide=false}:{title:string;childr
  document.removeEventListener('keydown',key);
  previous?.focus({preventScroll:true});
  };},[]);
- return <div className="overlay-backdrop" onClick={e=>{if(e.target===e.currentTarget)onClose();}}><section ref={ref} role="dialog" aria-modal="true" aria-label={title} tabIndex={-1} className={`overlay ${wide?'wide':''}`}><header className="overlay-header"><h2>{title}</h2><IconButton icon="close" label={`Close ${title}`} size="small" onClick={onClose}/></header>{children}</section></div>;
+ return <div className={`overlay-backdrop ${presentation==='player'?'player-backdrop':''}`} onClick={e=>{if(e.target===e.currentTarget)onClose();}}><section ref={ref} role="dialog" aria-modal="true" aria-label={title} tabIndex={-1} className={`overlay ${wide?'wide':''} ${presentation==='player'?'player-overlay':''}`}><header className="overlay-header"><h2>{title}</h2><IconButton icon="close" label={`Close ${title}`} size="small" onClick={onClose}/></header>{children}</section></div>;
 }

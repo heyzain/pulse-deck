@@ -27,6 +27,7 @@
 @media(max-height:480px) and (max-width:759px){.overlay{max-height:calc(100dvh - 112px)}}
 
 /* Keep one animation timeline so pause/resume preserves the current angle. */
+.vinyl{overflow:clip}
 .record-rotor{animation:spin 14s linear infinite;animation-play-state:paused}
 .is-playing .record-rotor{animation-play-state:running}
 .record-accent{transform:rotate(-178deg)}
@@ -177,3 +178,36 @@
 html{scrollbar-gutter:stable}
 @media(max-width:1100px){.inline-track-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:759px){.inline-track-grid{grid-template-columns:minmax(0,1fr)}#library-content .section-heading{flex-wrap:wrap;gap:var(--space-2)}#library-content .text-action{font-size:14px}}
+
+/* A large listening dialog, not browser fullscreen and not a second audio player. */
+.overlay-backdrop.player-backdrop{align-items:center;justify-content:center;padding:24px;background:var(--scene)}
+.overlay.player-overlay{width:min(1480px,100%);max-height:calc(100dvh - 48px);padding:clamp(20px,2.5vw,40px);border-radius:var(--radius-lg);overflow-x:hidden;scrollbar-gutter:stable}
+.player-overlay .overlay-header{margin-bottom:var(--space-5)}
+.player-overlay .overlay-header h2{font-size:16px;font-weight:600;letter-spacing:0;color:var(--muted)}
+.expanded-player{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.1fr);align-items:center;gap:clamp(24px,4vw,64px);padding-block:var(--space-4)}
+.expanded-player>.turntable{width:min(100%,620px,66dvh);justify-self:center}
+.expanded-player>.player-info{max-width:none;min-width:0}
+.expanded-player .track-heading{margin-top:var(--space-5);align-items:center}
+.expanded-player .track-heading>div{min-width:0}
+.expanded-player .track-heading h3{font-size:clamp(30px,3.5vw,58px);line-height:1.14;overflow-wrap:anywhere}
+.expanded-player .track-heading p{font-size:clamp(18px,2vw,26px);margin-top:var(--space-3)}
+.expanded-player .waveform{margin-top:var(--space-6)}
+.expanded-player .player-controls{margin-top:var(--space-6)}
+.expanded-settings{border-top:1px solid var(--border);margin-top:var(--space-5)}
+.expanded-settings .settings-row{margin-block:var(--space-3)}
+@media(max-width:799px){
+  .overlay-backdrop.player-backdrop{padding:12px}
+  .overlay.player-overlay{max-height:calc(100dvh - 24px);padding:20px}
+  .expanded-player{grid-template-columns:minmax(0,1fr);gap:var(--space-5);padding-block:0}
+  .expanded-player>.turntable{width:min(100%,380px,42dvh)}
+  .expanded-player .track-heading{margin-top:var(--space-4)}
+  .expanded-player .waveform,.expanded-player .player-controls{margin-top:var(--space-5)}
+}
+@media(max-height:600px) and (min-width:800px){
+  .overlay-backdrop.player-backdrop{padding:12px}
+  .overlay.player-overlay{max-height:calc(100dvh - 24px);padding:20px}
+  .player-overlay .overlay-header{margin-bottom:var(--space-3)}
+  .expanded-player{padding-block:0;gap:var(--space-5)}
+  .expanded-player .track-heading{margin-top:var(--space-3)}
+  .expanded-player .waveform,.expanded-player .player-controls{margin-top:var(--space-4)}
+}

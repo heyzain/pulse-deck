@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
-export type IconName = 'home'|'heart'|'music'|'radio'|'stats'|'folder'|'settings'|'search'|'bell'|'apps'|'play'|'pause'|'next'|'previous'|'shuffle'|'repeat'|'volume'|'mute'|'sliders'|'more'|'arrow'|'back'|'close'|'record'|'tape'|'guitar'|'headphones'|'sparkles'|'library'|'user'|'help'|'logout'|'check';
+export type IconName = 'home'|'heart'|'music'|'radio'|'stats'|'folder'|'settings'|'search'|'bell'|'apps'|'play'|'pause'|'next'|'previous'|'shuffle'|'repeat'|'volume'|'mute'|'sliders'|'more'|'arrow'|'back'|'close'|'record'|'tape'|'guitar'|'headphones'|'sparkles'|'library'|'user'|'help'|'logout'|'check'|'expand';
 const paths: Record<IconName, React.ReactNode> = {
+ expand:<><path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5M3 3l6 6m12-6-6 6M3 21l6-6m12 6-6-6"/></>,
  home:<><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/></>,
  heart:<path d="M20.7 4.8a5.5 5.5 0 0 0-7.8 0L12 5.9l-.9-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.7-8.4a5.5 5.5 0 0 0 0-7.8Z"/>,
  music:<><path d="M9 18V5l11-2v13M9 8l11-2"/><ellipse cx="6" cy="18" rx="3" ry="3"/><ellipse cx="17" cy="16" rx="3" ry="3"/></>,
