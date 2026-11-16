@@ -28,6 +28,9 @@
 
 /* Keep one animation timeline so pause/resume preserves the current angle. */
 .vinyl{overflow:clip}
+/* Keep compact sidebar navigation scrollable without the visible scrollbar. */
+.navigation-rail nav{scrollbar-width:none}
+.navigation-rail nav::-webkit-scrollbar{display:none}
 .record-rotor{animation:spin 14s linear infinite;animation-play-state:paused}
 .is-playing .record-rotor{animation-play-state:running}
 .record-accent{transform:rotate(-178deg)}
@@ -197,12 +200,43 @@ html{scrollbar-gutter:stable}
 .expanded-settings{border-top:1px solid var(--border);margin-top:var(--space-5)}
 .expanded-settings .settings-row{margin-block:var(--space-3)}
 @media(max-width:799px){
-  .overlay-backdrop.player-backdrop{padding:12px}
-  .overlay.player-overlay{max-height:calc(100dvh - 24px);padding:20px}
+  .overlay-backdrop.player-backdrop{align-items:flex-end;padding:12px 0 0;background:#342c2340}
+  .overlay.player-overlay{width:100%;max-height:calc(100dvh - 12px);padding:20px;padding-bottom:calc(20px + env(safe-area-inset-bottom,0px));border-radius:24px 24px 0 0;border-bottom:0;animation:player-sheet-in .24s var(--ease)}
   .expanded-player{grid-template-columns:minmax(0,1fr);gap:var(--space-5);padding-block:0}
   .expanded-player>.turntable{width:min(100%,380px,42dvh)}
   .expanded-player .track-heading{margin-top:var(--space-4)}
   .expanded-player .waveform,.expanded-player .player-controls{margin-top:var(--space-5)}
+}
+@keyframes player-sheet-in{from{transform:translateY(100%)}to{transform:translateY(0)}}
+/* Size the listening controls to the available mobile width. */
+@media(max-width:759px){
+  .overlay.player-overlay{padding:clamp(14px,4vw,20px);padding-bottom:calc(clamp(14px,4vw,20px) + env(safe-area-inset-bottom,0px))}
+  .expanded-player{gap:16px}
+  .expanded-player>.turntable{width:min(100%,320px,36dvh)}
+  .player-info .player-status .badge{min-width:0;font-size:13px;padding:6px 14px;gap:7px}
+  .player-info .status-dot{width:8px;height:8px}
+  .player-info .track-heading{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center}
+  .player-info .track-heading>div{min-width:0}
+  .player-info .track-heading h1,.expanded-player .track-heading h3{font-size:clamp(24px,6.5vw,32px);line-height:1.15}
+  .player-info .track-heading p{font-size:clamp(15px,4vw,18px);margin-top:6px;overflow-wrap:anywhere}
+  .player-info .track-heading>.icon-button,.player-info .track-actions .icon-button{width:44px;height:44px;border-radius:15px}
+  .player-info .track-heading .icon{width:24px;height:24px}
+  .player-info .waveform{min-height:56px;padding-inline:12px;gap:8px;margin-top:16px}
+  .player-info .waveform time{font-size:14px;min-width:34px;font-variant-numeric:tabular-nums}
+  .player-info .waveform input{left:54px;width:calc(100% - 108px);height:100%}
+  .player-info .wave-bars{height:40px;gap:2px}
+  .player-info .wave-bars i{max-height:36px}
+  .player-info .playhead{width:22px;height:22px;border-width:4px}
+  .player-info .player-controls{grid-template-columns:minmax(0,1fr) 44px;gap:12px;margin-top:16px}
+  .player-info .transport{width:100%;min-width:0;justify-content:space-between;gap:4px}
+  .player-info .transport .icon-button:not(.large){width:clamp(44px,12vw,52px);height:clamp(44px,12vw,52px);border-radius:16px}
+  .player-info .transport .icon-button .icon{width:24px;height:24px}
+  .player-info .transport .large{width:clamp(56px,16vw,68px);height:clamp(56px,16vw,68px)}
+  .player-info .transport .large .icon{width:28px;height:28px}
+  .player-info .volume-control{gap:8px}
+  .player-info .volume-control input{flex:1;width:100%;min-width:0;max-width:160px}
+  .player-info .volume-control output{font-size:14px;min-width:34px}
+  .expanded-player .track-heading{margin-top:10px}
 }
 @media(max-height:600px) and (min-width:800px){
   .overlay-backdrop.player-backdrop{padding:12px}
